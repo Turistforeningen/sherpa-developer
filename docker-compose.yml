@@ -28,9 +28,9 @@ services:
       - LIBRATO_SOURCE=sherpa-developer-dev
     command: nodemon --watch server --watch secrets-dev server/index.js
     extra_hosts:
-      - "www.dnt.local:10.200.10.1"
-      - "api.dnt.local:10.200.10.1"
-      - "developer-assets.dnt.local:10.200.10.1"
+      - "www.dnt.local:${DOCKER_IP}"
+      - "api.dnt.local:${DOCKER_IP}"
+      - "developer-assets.dnt.local:${DOCKER_IP}"
 
   client:
     build: client
