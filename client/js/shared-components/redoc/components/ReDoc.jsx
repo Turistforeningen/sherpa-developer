@@ -4,12 +4,15 @@ import connect from 'lib/wrappedConnect'
 
 import fetch from '../actions/fetch'
 import initRedocScript from '../actions/initRedocScript'
+import attachRedocSchema from '../actions/attachRedocSchema'
+import detachRedocSchema from '../actions/detachRedocSchema'
 import {
   getRedocScriptMounted,
-  getData,
+  getSchema,
   getIsFetching,
   getFetchError,
-  getIsDataSet,
+  getIsSchemaSet,
+  getSchemaAttached,
 } from '../selectors'
 
 import { Dimmer, Loader, Segment } from 'semantic-ui-react'
@@ -23,10 +26,10 @@ class Redoc extends Component {
   redocElement;
 
   componentDidMount() {
-    const { isRedocScriptMounted, actions, data } = this.props
+    const { isRedocScriptMounted, actions, isSchemaSet } = this.props
 
     // Fetch schema
-    if (!data) {
+    if (!isSchemaSet) {
       actions.fetch()
     }
 
@@ -47,8 +50,26 @@ class Redoc extends Component {
   }
 
   componentWillUnmount() {
+    const { actions } = this.props
+
+    actions.detachRedocSchema()
+
     // Remove the redoc-element
     this.redocRoot.removeChild(this.redocElement)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const {
+      isRedocScriptMounted,
+      isSchemaSet,
+      schemaAttached,
+      actions,
+      schema,
+    } = nextProps
+
+    if (isSchemaSet && isRedocScriptMounted && !schemaAttached) {
+      this.attachSchema(schema)
+    }
   }
 
   @autobind
@@ -61,10 +82,26 @@ class Redoc extends Component {
 
   @autobind
   init() {
-    const { actions, isDataSet } = this.props
-    if (!isDataSet) {
+    const {
+      actions,
+      isSchemaSet,
+      isRedocScriptMounted,
+      schemaAttached,
+      schema,
+    } = this.props
+
+    if (!isSchemaSet) {
       actions.fetch()
+    } else if (isRedocScriptMounted && !schemaAttached) {
+      this.attachSchema(schema)
     }
+  }
+
+  @autobind
+  attachSchema(schema) {
+    const { actions } = this.props
+    actions.attachRedocSchema()
+    window.Redoc.init(schema, {})
   }
 
   render() {
@@ -97,14 +134,20 @@ const mapStateToProps = (state) => ({
   isRedocScriptMounted: getRedocScriptMounted(state),
   isFetching: getIsFetching(state),
   error: getFetchError(state),
-  isDataSet: getIsDataSet(state),
-  data: getData(state),
+  isSchemaSet: getIsSchemaSet(state),
+  schema: getSchema(state),
+  schemaAttached: getSchemaAttached(state),
 })
 
 
 const ConnectedComponent = connect(
   mapStateToProps,
-  { fetch, initRedocScript }
+  {
+    fetch,
+    initRedocScript,
+    attachRedocSchema,
+    detachRedocSchema,
+  }
 )(Redoc)
 
 

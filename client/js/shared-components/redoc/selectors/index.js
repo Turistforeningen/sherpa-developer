@@ -10,13 +10,16 @@ export const getIsFetching = (state) => state[KEY].fetching
 export const getFetchError = (state) => state[KEY].fetchError
 
 
-export const getData = (state) => state[KEY].data
+export const getSchema = (state) => state[KEY].schema
+
+
+export const getSchemaAttached = (state) => state[KEY].schemaAttached
 
 
 export const getRedocScriptMounted = (state) => state[KEY].redocScriptMounted
 
 
-export const getIsDataSet = createSelector(
-  getData,
-  (data) => data && data.swagger
+export const getIsSchemaSet = createSelector(
+  getSchema,
+  (schema) => !!(schema && schema.swagger)
 )

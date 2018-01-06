@@ -2,14 +2,16 @@ import { combineReducers } from 'redux'
 
 import fetching from './fetching'
 import fetchError from './fetchError'
-import data from './data'
+import schema from './schema'
+import schemaAttached from './schemaAttached'
 import redocScriptMounted from './redocScriptMounted'
 
 
 const redocReducers = combineReducers({
   fetching,
   fetchError,
-  data,
+  schema,
+  schemaAttached,
   redocScriptMounted,
 })
 

@@ -1,8 +1,7 @@
-import { SUCCESS } from 'core/actions/user/fetch'
-import * as logoutTypes from 'core/actions/user/logout'
+import { SUCCESS } from '../actions/fetch'
 
 
-const data = (state = {}, action) => {
+const schema = (state = {}, action) => {
   switch (action.type) {
     case SUCCESS:
       return action.payload.schema
@@ -14,4 +13,4 @@ const data = (state = {}, action) => {
 }
 
 
-export default data
+export default schema
