@@ -15,7 +15,7 @@ import {
   getSchemaAttached,
 } from '../selectors'
 
-import { Dimmer, Loader, Segment } from 'semantic-ui-react'
+import { Spin } from 'antd'
 
 
 const CDN = 'https://rebilly.github.io/ReDoc/releases/latest/redoc.min.js'
@@ -110,11 +110,7 @@ class Redoc extends Component {
     if (isFetching) {
       return (
         <div>
-          <Segment>
-            <Dimmer active>
-              <Loader content='Loading!' />
-            </Dimmer>
-          </Segment>
+          <Spin />
         </div>
       )
     }

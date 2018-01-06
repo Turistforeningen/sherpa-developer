@@ -4,11 +4,11 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const BundleAnalyzer = require('webpack-bundle-analyzer')
 const { getIfUtils, removeEmpty } = require('webpack-config-utils')
 
 const aliases = require('./webpack.aliases')
+
 
 const hostname = process.env.VIRTUAL_HOST || 'developer-assets.dnt.local'
 const port = process.env.VIRTUAL_PORT || '3000'
@@ -72,7 +72,7 @@ module.exports = (env) => {
       publicPath: ifProduction(publicPathProd, publicPathDev),
     },
     resolve: {
-      extensions: ['.js', '.json', '.jsx'],
+      extensions: ['.js', '.json', '.jsx', '.less'],
       alias: aliases.resolve.alias,
     },
     module: {
@@ -96,15 +96,6 @@ module.exports = (env) => {
           loaders: 'babel-loader',
           exclude: /(\/node_modules\/|test\.js|\.spec\.js$)/,
         },
-
-        // {
-        //   test: /\.less$/,
-        //   loaders: removeEmpty([
-        //     { loader: 'style-loader', options: { sourceMap: true } },
-        //     { loader: 'css-loader', options: { sourceMap: true } },
-        //     { loader: 'less-loader', options: { sourceMap: true } },
-        //   ]),
-        // },
 
         // less / CSS RULES
         // Rule.oneOf is used here to prevent that a file is matched in
@@ -212,10 +203,6 @@ module.exports = (env) => {
 
       // Css
       ifProduction(cssApp),
-
-      // Minimize Lodash-build (used by Semantic-UI-React). This is coupled
-      // with babel-lodash-plugin used in .babelrc
-      ifProduction(new LodashModuleReplacementPlugin()),
 
       // Production build configuration
       ifProduction(new webpack.LoaderOptionsPlugin({

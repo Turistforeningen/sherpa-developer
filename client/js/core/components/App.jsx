@@ -13,9 +13,11 @@ import setOAuthTokens from 'core/actions/user/setOAuthTokens'
 
 import { Route } from 'react-router'
 import { Link } from 'react-router-dom'
-import { Button } from 'semantic-ui-react'
+import { Button } from 'antd'
 import Dashboard from 'modules/dashboard'
 import Users from 'modules/users'
+
+import CoreLayout from './layout/CoreLayout.jsx'
 
 
 const Example = universal(
@@ -65,11 +67,11 @@ class App extends Component {
     const { loadExample } = this.state
 
     return (
-      <div>
+      <CoreLayout>
         <h1>App component</h1>
         <hr />
         <Button
-          primary
+          type="primary"
           onClick={() => actions.inc()}>
           Increment
         </Button>
@@ -99,7 +101,7 @@ class App extends Component {
           <Route path="/users" component={Users}/>
           <Route path="/example" component={Example}/>
         </div>
-      </div>
+      </CoreLayout>
     )
   }
 }

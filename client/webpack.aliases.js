@@ -19,9 +19,12 @@ module.exports = {
       modules: path.join(__dirname, 'js', 'modules'),
       'shared-components': path.join(__dirname, 'js', 'shared-components'),
 
-      // This is to force SemanticUI to use our local theme configuration
-      '../../theme.config$': path.join(
-        __dirname, 'less/semantic-theme/theme.config'
+      // This is to force ant-design to use our local theme configuration
+      '../../style/index.less': path.join(
+        __dirname, 'less', 'ant-theme-index.less'
+      ),
+      '../../style/themes/default.less': path.join(
+        __dirname, 'less', 'ant-theme-vars.less'
       ),
     },
   },

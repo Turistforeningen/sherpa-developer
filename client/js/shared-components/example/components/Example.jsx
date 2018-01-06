@@ -8,7 +8,7 @@ import { getNumber, getLastActionTimestamp } from '../selectors'
 import increment from '../actions/increment'
 import decrement from '../actions/decrement'
 
-import { Button } from 'semantic-ui-react'
+import { Button } from 'antd'
 
 
 class Example extends Component {
